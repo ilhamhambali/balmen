@@ -1,35 +1,46 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CategoryController;
-use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\DashboardController; // PERUBAHAN: Tambahkan ini
+use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProfileController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
-| Rute Publik / Pengguna
+| Web Routes
 |--------------------------------------------------------------------------
-|
-| Rute ini dapat diakses oleh siapa saja.
-| Ini adalah etalase toko online Anda.
-|
 */
+
 Route::get('/', [HomeController::class, 'index'])->name('home');
-//Route::get('/products/{product:slug}', [HomeController::class, 'showProduct'])->name('products.show');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// PERUBAHAN: Arahkan rute dashboard ke DashboardController
+Route::get('/dashboard', [DashboardController::class, 'index'])
+    ->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/products', function () {
-    return view('admin.products.index');
-})->middleware(['auth', 'verified'])->name('products');
+// Grup untuk semua rute di dalam folder admin
+Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(function () {
+    // ... rute admin lainnya
+    Route::get('/order', function () {
+        return view('admin.order.order');
+    })->name('order');
 
-Route::get('/products/create', function () {
-    return view('admin.products.create');
-})->middleware(['auth', 'verified'])->name('products.create');
+    Route::prefix('products')->name('products.')->group(function () {
+        Route::get('/', [ProductController::class, 'index'])->name('index');
+        Route::get('/create', [ProductController::class, 'create'])->name('create');
+        Route::post('/', [ProductController::class, 'store'])->name('store');
+        Route::get('/{product}/edit', [ProductController::class, 'edit'])->name('edit');
+        Route::patch('/{product}', [ProductController::class, 'update'])->name('update');
+        Route::delete('/{product}', [ProductController::class, 'destroy'])->name('destroy');
+        Route::delete('/images/{image}', [ProductController::class, 'destroyImage'])->name('images.destroy');
+    });
+
+    Route::resource('categories', CategoryController::class);
+    Route::resource('brands', BrandController::class);
+});
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -37,7 +48,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
+
 
 /*
 |--------------------------------------------------------------------------
