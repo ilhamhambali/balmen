@@ -1,0 +1,103 @@
+/* Balmen Theme Customizations */
+
+/* 1. Font & Body */
+body {
+    font-family: 'Poppins', sans-serif; /* Font modern yang mudah dibaca */
+    background-color: #f8f9fa; /* Latar belakang abu-abu terang yang bersih */
+}
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+    font-family: 'Montserrat', sans-serif; /* Font yang tegas untuk judul */
+    font-weight: 700;
+}
+
+/* 2. Skema Warna */
+:root {
+    --primary-color: #0d6efd; /* Biru cerah sebagai warna utama */
+    --secondary-color: #1a1a1a; /* Hitam pekat untuk teks */
+    --accent-color: #ffffff; /* Putih untuk latar belakang kartu */
+}
+
+/* 3. Header & Navigasi */
+.header {
+    background-color: var(--accent-color);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.navigation__link {
+    color: var(--secondary-color);
+    font-weight: 500;
+}
+
+.navigation__link:hover {
+    color: var(--primary-color);
+}
+
+/* 4. Tombol */
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #0b5ed7;
+    border-color: #0a58ca;
+}
+
+.btn-secondary {
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #333;
+    border-color: #333;
+}
+
+/* 5. Kartu Produk */
+.product-card {
+    border: none;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+}
+
+.pc__title a {
+    color: var(--secondary-color);
+    text-decoration: none;
+}
+
+.pc__title a:hover {
+    color: var(--primary-color);
+}
+
+.money.price {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+/* 6. Footer */
+.footer {
+    background-color: #1a1a1a;
+    color: #a9a9a9;
+}
+
+.footer .logo__image {
+    filter: brightness(0) invert(1); /* Membuat logo menjadi putih di footer */
+}
+
+.footer .sub-menu__title {
+    color: #ffffff;
+}
+
+.footer .menu-link:hover {
+    color: var(--primary-color);
+}

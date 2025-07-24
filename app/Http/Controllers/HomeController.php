@@ -2,21 +2,42 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use Illuminate\Http\Request;
-use App\Models\Post;
 
 class HomeController extends Controller
 {
+    /**
+     * Menampilkan halaman utama dengan daftar produk.
+     */
     public function index()
     {
-        // Ganti Post menjadi Product
-        $products = \App\Models\Product::latest()->paginate(9);
+        $products = Product::latest()->take(8)->get();
         return view('home', compact('products'));
     }
 
-    // Ganti nama metode dan tipe parameter
-    public function showProduct(\App\Models\Product $product)
+    /**
+     * Menangani pencarian produk dan mengembalikan hasil dalam format JSON.
+     */
+    public function search(Request $request)
     {
-        return view('product-detail', compact('product'));
+        $query = $request->input('query');
+        if (!$query) {
+            return response()->json([]);
+        }
+        $products = Product::where('name', 'LIKE', "%{$query}%")
+            ->orWhere('sku', 'LIKE', "%{$query}%")
+            ->take(5)
+            ->get();
+        return response()->json($products);
+    }
+
+    /**
+     * PERUBAHAN: Metode baru untuk menampilkan halaman detail produk.
+     */
+    public function productDetails(Product $product)
+    {
+        // Anda bisa menambahkan logika lain di sini, seperti mengambil produk terkait
+        return view('details', compact('product'));
     }
 }

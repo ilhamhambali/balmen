@@ -2,7 +2,8 @@
 
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CategoryController;
-use App\Http\Controllers\Admin\DashboardController; // PERUBAHAN: Tambahkan ini
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\OrderController; // PERUBAHAN: Tambahkan ini
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
@@ -16,17 +17,24 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-// PERUBAHAN: Arahkan rute dashboard ke DashboardController
+// Rute untuk API pencarian produk
+Route::get('/products/search', [HomeController::class, 'search'])->name('products.search');
+
+Route::get('/products/{product:slug}', [HomeController::class, 'productDetails'])->name('products.details');
+
 Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])->name('dashboard');
 
 // Grup untuk semua rute di dalam folder admin
 Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(function () {
-    // ... rute admin lainnya
-    Route::get('/order', function () {
-        return view('admin.order.order');
-    })->name('order');
 
+    // PERUBAHAN: Rute untuk Order
+    Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
+    Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
+    Route::patch('/orders/{order}/status', [OrderController::class, 'updateStatus'])->name('orders.updateStatus');
+
+
+    // Rute Produk, Kategori, Brand...
     Route::prefix('products')->name('products.')->group(function () {
         Route::get('/', [ProductController::class, 'index'])->name('index');
         Route::get('/create', [ProductController::class, 'create'])->name('create');
@@ -112,4 +120,3 @@ require __DIR__ . '/auth.php';
 //     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
 //     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 // });
-
