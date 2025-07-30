@@ -2,18 +2,28 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
     /**
-     * Menampilkan halaman utama dengan daftar produk.
+     * Menampilkan halaman utama dengan data untuk berbagai section.
      */
     public function index()
     {
-        $products = Product::latest()->take(8)->get();
-        return view('home', compact('products'));
+        // Mengambil 8 kategori untuk ditampilkan di carousel
+        $categories = Category::take(8)->get();
+
+        // Mengambil 8 produk terbaru sebagai "Featured Products"
+        $featuredProducts = Product::latest()->take(8)->get();
+
+        // Mengambil 8 produk lain (misalnya, secara acak) sebagai "Hot Deals"
+        $hotDealProducts = Product::inRandomOrder()->take(8)->get();
+
+        // Mengirim semua data ke view 'home'
+        return view('home', compact('categories', 'featuredProducts', 'hotDealProducts'));
     }
 
     /**
@@ -33,11 +43,11 @@ class HomeController extends Controller
     }
 
     /**
-     * PERUBAHAN: Metode baru untuk menampilkan halaman detail produk.
+     * Menampilkan halaman detail produk.
      */
     public function productDetails(Product $product)
     {
-        // Anda bisa menambahkan logika lain di sini, seperti mengambil produk terkait
+        $product->load('images', 'brand', 'categories');
         return view('details', compact('product'));
     }
 }

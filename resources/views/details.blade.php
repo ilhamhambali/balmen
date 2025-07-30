@@ -1,5 +1,4 @@
 <x-frontend-layout>
-
     <main class="pt-90">
         <div class="mb-md-1 pb-md-3"></div>
         <section class="product-single container">
@@ -58,7 +57,8 @@
                             <a href="{{ url('/') }}"
                                 class="menu-link menu-link_us-s text-uppercase fw-medium">Home</a>
                             <span class="breadcrumb-separator menu-link fw-medium ps-1 pe-1">/</span>
-                            <a href="#" class="menu-link menu-link_us-s text-uppercase fw-medium">Shop</a>
+                            <a href="{{ route('shop.index') }}"
+                                class="menu-link menu-link_us-s text-uppercase fw-medium">Shop</a>
                         </div>
                     </div>
                     <h1 class="product-single__name">{{ $product->name }}</h1>
@@ -68,7 +68,9 @@
                     <div class="product-single__short-desc">
                         <p>{{ $product->description }}</p>
                     </div>
-                    <form name="addtocart-form" method="post">
+                    {{-- Ganti form lama dengan ini --}}
+                    <form action="{{ route('cart.store', $product->id) }}" method="POST">
+                        @csrf
                         <div class="product-single__addtocart">
                             <div class="qty-control position-relative">
                                 <input type="number" name="quantity" value="1" min="1"
@@ -95,6 +97,12 @@
                     </div>
                 </div>
             </div>
+            <div class="product-single__details-tab mt-5">
+                {{-- Bagian tab deskripsi, info tambahan, dan review bisa ditambahkan di sini nanti --}}
+            </div>
         </section>
-        </div>
+        <section class="products-carousel container mt-5">
+            {{-- Bagian produk terkait bisa ditambahkan di sini nanti --}}
+        </section>
+    </main>
 </x-frontend-layout>
