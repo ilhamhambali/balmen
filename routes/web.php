@@ -31,6 +31,8 @@ Route::post('/contact', [ContactController::class, 'store'])->name('contact.stor
 // RUTE TOKO (Publik / Guest Checkout)
 Route::get('/shop', [ShopController::class, 'index'])->name('shop.index');
 Route::get('/products/{product:slug}', [ShopController::class, 'productDetails'])->name('shop.products.details');
+Route::post('/products/{product}/recommendations', [ShopController::class, 'getAiRecommendations'])->name('shop.products.recommendations');
+Route::post('/products/get-size-recommendation', [ShopController::class, 'getSizeRecommendation'])->name('shop.products.getSizeRecommendation');
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 Route::post('/cart/add/{product}', [CartController::class, 'store'])->name('cart.store');
 Route::patch('/cart/update/{id}', [CartController::class, 'update'])->name('cart.update');
