@@ -1,14 +1,13 @@
 {
-"version": 2,
-    "framework": null,
+    "version": 2,
     "builds": [
         {
-            "src": "/public/index.php",
-            "use": "@vercel/php"
+            "src": "/public",
+            "use": "@vercel/static"
         },
         {
-            "src": "/public/**",
-            "use": "@vercel/static"
+            "src": "/api/index.php",
+            "use": "@vercel/php"
         }
     ],
     "routes": [
@@ -18,20 +17,7 @@
         },
         {
             "src": "/(.*)",
-            "dest": "/public/index.php"
+            "dest": "/api/index.php"
         }
-    ],
-    "env": {
-        "APP_ENV": "production",
-        "APP_DEBUG": "false",
-        "APP_URL": "https://your-project-url.vercel.app",
-        "APP_KEY": "base64:/7pCZrabXzST4sW1oy+esGlpnDrDDKY8TQU4ehaXOtE=",
-        "DB_CONNECTION": "pgsql",
-        "DB_HOST": "ep-aged-block-a1u41p3k-pooler.ap-southeast-1.aws.neon.tech",
-        "DB_PORT": "5432",
-        "DB_DATABASE": "neondb",
-        "DB_USERNAME": "neondb_owner",
-        "DB_PASSWORD": "posnpg_QDHlyIGU8dX2",
-        "GEMINI_API_KEY": "AIzaSyCaYy3V0rYDDXSeP2MirS-W8NT2qEs9UmA"
-    }
+    ]
 }
