@@ -1,0 +1,9 @@
+[build]
+  command = "npm install && npm run build && php artisan migrate:fresh --seed --force"
+  publish = "public"
+  functions = "netlify/functions"
+
+[[redirects]]
+  from = "/*"
+  to = "/.netlify/functions/api"
+  status = 200
