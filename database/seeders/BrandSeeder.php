@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Brand;
+use Illuminate\Support\Facades\DB;
 
 class BrandSeeder extends Seeder
 {
@@ -13,7 +14,8 @@ class BrandSeeder extends Seeder
      */
     public function run(): void
     {
-        //
-        Brand::factory(5)->create();
+        DB::table('brands')->insert([
+            ['name' => 'Balmen', 'slug' => 'balmen'],
+        ]);
     }
 }
