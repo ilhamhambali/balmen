@@ -96,6 +96,19 @@ return [
             'search_path' => 'public',
             'sslmode' => 'prefer',
         ],
+        'pgsql_proxy' => [
+            'driver' => 'pgsql',
+            'host' => env('DB_HOST_PROXY'), // Perhatikan _PROXY
+            'port' => env('DB_PORT_PROXY'), // Perhatikan _PROXY
+            'database' => env('DB_DATABASE'), // Ini bisa pakai variabel yang sama
+            'username' => env('DB_USERNAME'), // Ini bisa pakai variabel yang sama
+            'password' => env('DB_PASSWORD'), // Ini bisa pakai variabel yang sama
+            'charset' => 'utf8',
+            'prefix' => '',
+            'prefix_indexes' => true,
+            'search_path' => 'public',
+            'sslmode' => 'prefer',
+        ],
 
         'sqlsrv' => [
             'driver' => 'sqlsrv',
@@ -147,7 +160,7 @@ return [
 
         'options' => [
             'cluster' => env('REDIS_CLUSTER', 'redis'),
-            'prefix' => env('REDIS_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_').'_database_'),
+            'prefix' => env('REDIS_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_') . '_database_'),
             'persistent' => env('REDIS_PERSISTENT', false),
         ],
 
